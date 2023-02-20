@@ -1,0 +1,65 @@
+{
+  "name": "@massimo-cassandro/auto-datatables",
+  "version": "1.0.0",
+  "description": "jQuery datatables utilities",
+  "author": "Massimo Cassandro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "datatable"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/massimo-cassandro/auto-datatables.git#main"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "rollup": "npx rollup --config ./config/rollup.config.js --watch",
+    "sass": "sh ./scripts/run-sass.sh",
+    "UPD-version": "npx update-version",
+    "upd @m": "npm update @massimo-cassandro/linters-config @massimo-cassandro/dev-utilities @massimo-cassandro/js-utilities",
+    "npm update": "npm update",
+    "npm publish": "npm publish"
+  },
+  "browserslist": [
+    "last 1 version",
+    "iOS >= 13",
+    "Safari >= 12",
+    "not ie <= 11",
+    "> 3% in IT"
+  ],
+  "stylelint": {
+    "extends": "@massimo-cassandro/linters-config/stylelintrc.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/@massimo-cassandro/linters-config/eslintrc.js"
+    ],
+    "ignorePatterns": []
+  },
+  "files": [
+    "js/**/*.{js,map}",
+    "scss/**/*.{scss,css,map}",
+    "index.js"
+  ],
+  "devDependencies": {
+    "@massimo-cassandro/dev-utilities": "^1.9.4",
+    "@massimo-cassandro/linters-config": "^1.2.5",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rollup": "^3.17.2",
+    "sass": "^1.58.3"
+  },
+  "dependencies": {
+    "@massimo-cassandro/js-utilities": "^1.1.0",
+    "bootstrap": "^5.2.3",
+    "datatables.net": "1.12.1",
+    "datatables.net-bs5": "1.12.1",
+    "jquery": "3.6.x",
+    "moment": "2.29.x",
+    "mustache": "4.2.x"
+  }
+}
