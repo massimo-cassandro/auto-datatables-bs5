@@ -1,4 +1,5 @@
-import {_autoDataTable} from '../../../js/autoDataTable-bs5';
+/* eslint-disable no-console */
+import {_autoDataTable} from '../../js/autoDataTable-bs5';
 
 
 /*

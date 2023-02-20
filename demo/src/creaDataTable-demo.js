@@ -1,4 +1,4 @@
-import {_creaDataTable} from '../../../js/creaDataTable-bs5';
+import {_creaDataTable} from '../../js/creaDataTable-bs5';
 
 
 /*

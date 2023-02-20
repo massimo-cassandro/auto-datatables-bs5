@@ -1,4 +1,4 @@
-import {_autoDataTable} from '../../../js/autoDataTable-bs5-jq-ondemand';
+import {_autoDataTable} from '../../js/autoDataTable-bs5-jq-ondemand';
 
 /*
   {
