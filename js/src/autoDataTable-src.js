@@ -30,9 +30,9 @@
   * `options`: oggetto opzioni per _creaDataTable (vedi)
 */
 
-import {mesi} from '../../../js-utilities/mesi-giorni-it';
-import {number_format} from '../../../js-utilities/number-format';
-import { dateStringToISO, formatDate, formatTime, formatDateTime } from '../../../js-utilities/date-utilities';
+import {mesi} from '@massimo-cassandro/js-utilities';
+import {number_format} from './number-format';
+import { dateStringToISO, formatDate, formatTime, formatDateTime } from '@massimo-cassandro/js-utilities';
 
 import mustache from 'mustache/mustache.mjs';
 import creaDataTable_default_options from './creaDataTable-defaults';
