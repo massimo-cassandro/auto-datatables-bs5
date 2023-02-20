@@ -1,7 +1,7 @@
 {
-  "name": "@massimo-cassandro/auto-datatables",
-  "version": "1.0.0",
-  "description": "jQuery datatables utilities",
+  "name": "@massimo-cassandro/auto-datatables-bs5",
+  "version": "1.0.1",
+  "description": "jQuery datatables utilities (bootstrap 5)",
   "author": "Massimo Cassandro",
   "license": "MIT",
   "main": "index.js",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/massimo-cassandro/auto-datatables.git#main"
+    "url": "git+https://github.com/massimo-cassandro/auto-datatables-bs5.git#main"
   },
   "publishConfig": {
     "access": "public"
