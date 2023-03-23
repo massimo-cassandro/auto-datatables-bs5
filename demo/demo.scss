@@ -1,0 +1,17 @@
+// BS5
+@import 'bootstrap/scss/bootstrap';
+
+@import '../src/scss/datatable-vars';
+@import '../src/scss/crea-datatable';
+@import '../src/scss/datatable-processing';
+@import '../src/scss/datatable-controls-bs';
+@import '../src/scss/datatable-table-bs';
+@import '../src/scss/datatable-sorting-bs';
+@import '../src/scss/datatable-pagination-bs';
+@import '../src/scss/datatables-classes';
+@import '../src/scss/datatable-responsive';
+
+
+h2 {
+  margin-top: 2rem;
+}

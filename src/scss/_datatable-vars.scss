@@ -1,21 +1,20 @@
-$datatable_responsive_border_color: #ccc !default;
-$datatable_sorting_arrows_color: currentColor !default;
-$datatable_active_sorting_color: #c00 !default; // false = nessuna modifica al valore std
-$datatable_active_sorting_bg: transparent !default; // false = nessuna modifica al valore std
-$datatable_active_sorting_border-bottom: false !default; // false = nessuna modifica al bordo std
-$datatable_processing_padding: 0 !default;
-$datatable_processing_bg: linear-gradient(to right, rgba($bianco, 0) 0%, rgba($bianco, .9) 25%, rgba($bianco, .9) 75%, rgba($bianco, 0) 100%) !default;
+$datatable-responsive-border-color: #ccc !default;
+$datatable-sorting-arrows-color: currentColor !default;
+$datatable-active-sorting-color: #c00 !default; // false = nessuna modifica al valore std
+$datatable-active-sorting-bg: transparent !default; // false = nessuna modifica al valore std
+$datatable-active-sorting-border-bottom: false !default; // false = nessuna modifica al bordo std
+$datatable-processing-padding: 0 !default;
+$datatable-processing-bg: linear-gradient(to right, rgba(#fff, 0) 0%, rgba(#fff, .9) 25%, rgba(#fff, .9) 75%, rgba(#fff, 0) 100%) !default;
 
-$sorting_arrow_size: 4px !default; //  false per eliminare la freccia
+$sorting-arrow-size: 4px !default; //  false per eliminare la freccia
 $sorting-arrow-cell-base-padding: .5em !default;
 $sorting-arrow-cell-padding: $sorting-arrow-cell-base-padding 1.5em $sorting-arrow-cell-base-padding $sorting-arrow-cell-base-padding !default;
 $sorting-arrow-bottom: 50% !default;
 
 /*
   STRUTTURA del markup costruito da datatable e creaDatatable
-  (secondo le impostazioni in _datatables_config_bs4.js)
 
-  <div class="dt_container auto_dt">   // container creaDatatable
+  <div class="dt-container">   // container creaDatatable
 
     parametro dataTable.defaults.dom in _datatables_config_bs4.js :
     ------------------------------------------------------------------

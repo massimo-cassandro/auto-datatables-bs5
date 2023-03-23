@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="./demo.css" type="text/css" media="all">
+    <link rel="icon" href="data:;base64,=">
+    <title>autoDataTable demo</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Demo</h1>
+      <p>(NB: il json caricato è statico, quindi paginazione, ordinamento, ricerca, ecc. non sono funzionanti).</p>
+
+
+
+      <h2>auto-datatable 1</h2>
+      <p>Configurazione solo tramite javascript</p>
+
+      <div id="auto-datatable-1"></div>
+
+      <h2>auto-datatable 2</h2>
+      <p>Configurazione tramite javascript e attributi <code>data</code></p>
+
+      <div id="auto-datatable-2"
+        data-cdt-options="{&quot;table_caption&quot;:&quot;Table caption&quot;}"
+        data-dt-options="{&quot;ajax&quot;:&quot;./demo-data.json&quot;,&quot;order&quot;:[[2,&quot;asc&quot;],[3,&quot;asc&quot;]],&quot;pageLength&quot;:10,&quot;stateSave&quot;:false}"
+        data-dt-columns="[{&quot;title&quot;:&quot;#&quot;,&quot;data&quot;:&quot;id&quot;,&quot;className&quot;:&quot;text-right&quot;,&quot;orderable&quot;:false},{&quot;title&quot;:&quot;Nome&quot;,&quot;data&quot;:&quot;firstName&quot;},{&quot;title&quot;:&quot;Cognome&quot;,&quot;data&quot;:&quot;lastName&quot;},{&quot;title&quot;:&quot;Posizione&quot;,&quot;data&quot;:&quot;position&quot;},{&quot;title&quot;:&quot;Sede&quot;,&quot;data&quot;:&quot;office&quot;}]"
+      >
+      </div>
+
+      <p>Attributi data:</p>
+<pre><code>
+  <strong>data-cdt-options</strong> = "{table_caption: 'Table Caption'}"
+
+  <strong>data-cdt-options</strong> = "{
+    ajax: './demo-data.json',
+    order: [[2,'asc'], [3, 'asc']],
+    pageLength: 10,
+    stateSave: false
+  }"
+
+  <strong>data-dt-columns</strong> = "[
+    {
+      title      : '#',
+      data       : 'id',
+      className  : 'text-right',
+      orderable  : false
+    },
+    {
+      title      : 'Nome',
+      data       : 'firstName'
+    },
+    {
+      title      : 'Cognome',
+      data       : 'lastName'
+    },
+    {
+      title      : 'Posizione',
+      data       : 'position'
+    },
+    {
+      title      : 'Sede',
+      data       : 'office'
+    }
+  ]"
+</code></pre>
+
+    </main>
+
+    <script src="./demo-min.js"></script>
+  </body>
+</html>

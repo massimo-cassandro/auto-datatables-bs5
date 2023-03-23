@@ -1,4 +1,5 @@
-/* stylelint-disable */
+/* stylelint-disable declaration-no-important */
+/* stylelint-disable selector-class-pattern */
 .m-datatable {
   thead {
     tr {
@@ -21,7 +22,7 @@
     cursor: pointer;
     background-image: none;
 
-    @if $sorting_arrow_size {
+    @if $sorting-arrow-size {
       padding: $sorting-arrow-cell-padding !important;
 
       &::before, &::after {
@@ -32,18 +33,18 @@
         height: 0;
         content: '' !important;
         border-color: transparent;
-        border-width: $sorting_arrow_size;
+        border-width: $sorting-arrow-size;
       }
 
       &::before {
+        bottom: calc(#{$sorting-arrow-bottom } + 1px + #{$sorting-arrow-size}) !important;
         border-style: none solid solid;
-        border-bottom-color: $datatable_sorting_arrows_color;
-        bottom: calc(#{$sorting-arrow-bottom } + 1px + #{$sorting_arrow_size}) !important;
+        border-bottom-color: $datatable-sorting-arrows-color;
       }
       &::after {
+        bottom: calc(#{$sorting-arrow-bottom} - #{$sorting-arrow-size}) !important;
         border-style: solid solid none;
-        border-top-color: $datatable_sorting_arrows_color;
-        bottom: calc(#{$sorting-arrow-bottom} - #{$sorting_arrow_size}) !important;
+        border-top-color: $datatable-sorting-arrows-color;
       }
 
     } @else {
@@ -57,25 +58,24 @@
     @if $datatable_active_sorting_color {
       color: $datatable_active_sorting_color !important;
     }
-    @if $datatable_active_sorting_bg {
-      background: $datatable_active_sorting_bg !important;
+    @if $datatable-active-sorting-bg {
+      background: $datatable-active-sorting-bg !important;
     }
     background-clip: padding-box !important;
 
-    @if $datatable_active_sorting_border-bottom {
-      border-bottom: $datatable_active_sorting_border-bottom;
+    @if $datatable-active-sorting-border-bottom {
+      border-bottom: $datatable-active-sorting-border-bottom;
     }
 
-    @if ($sorting_arrow_size and $datatable_active_sorting_color) {
+    @if ($sorting-arrow-size and $datatable_active_sorting_color) {
 
-      &:before {
+      &::before {
         border-bottom-color: $datatable_active_sorting_color;
       }
 
-      &:after {
+      &::after {
         border-top-color: $datatable_active_sorting_color;
       }
     }
   }
 }
-/* stylelint-enable */

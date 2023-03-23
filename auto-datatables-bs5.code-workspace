@@ -9,6 +9,14 @@
 			{
 				"filePath": "node_modules/@massimo-cassandro",
 				"group": "Default"
+			},
+			{
+				"filePath": "node_modules/datatables.net",
+				"group": "Default"
+			},
+			{
+				"filePath": "node_modules/datatables.net-bs5",
+				"group": "Default"
 			}
 		]
 	}

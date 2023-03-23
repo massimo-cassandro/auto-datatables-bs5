@@ -2,113 +2,147 @@
 
 Generazione automatica di datatable a partire da un flusso JSON.
 
-Questo script è la riscrittura in ES6 del vecchio plugin jQuery [auto-datatables](../legacy/auto-datatables/README.md) presente in questo repository.
-
-Esempi nella [dir demo](https://github.com/massimo-cassandro/m-utilities/tree/master/auto-datatables/demo)
-
-
-## Moduli
-La procedura comprende due moduli:
-
-### _creaDataTable
-
-Genera un datatable da un flusso JSON
-
 Richiede [DataTable](https://datatables.net/), e [jQuery](https://jquery.com/).
 
+Dalla versione 2.x sia jQuery che datatable non vengoino inclusi nello script, ma caricati tramite file esterni.
 
-### _autoDataTable
+## Utilizzo
+```html
+<div class="dt-container"></div>
+```
 
-Crea un datatable leggendo gli attributi data assegnati ad un div e utilizzando **_creaDataTable**.
+```js
+import {_creaDataTable} from '@massimo-cassandro/auto-datatables-bs5';
+
+// i valori indicati sono quelli di default
+_creaDataTable({
+  container    : '.dt-container',
+  cdt_options  : {},
+  dt_options   : {},
+  jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
+  dt_urls : [
+    'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js', 
+    'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js'
+  ]
+})
+```
+
+L'elemento `container` può essere un selettore css (stringa), un elemento DOM o un oggetto jQuery.
+
+Per ridurre il numero di chiamate è possibile unificare gli url relativi a datatable creando localmente un file unico:
+
+```bash
+cat jquery.dataTables.min.js dataTables.bootstrap5.min.js > dt.js
+```
+
+È anche possibile unire il tutto con jquery, impostando poi l'elemento `dt_urls` a `null`:
+
+```bash
+cat jquery jquery.dataTables.min.js dataTables.bootstrap5.min.js > dt.js
+```
+
+```js
+import {_creaDataTable} from '@massimo-cassandro/auto-datatables-bs5';
+
+_creaDataTable({
+  container    : '.dt-container',
+  cdt_options  : {},
+  dt_options   : {},
+  jquery_url   : 'dt.js',
+  dt_urls      : null
+})
+```
+
+
+### Configurazione tramite attributi data
 
 L'utilità di questa funzione è il poter configurare un datatable interamente con attributi data.
 
 il contenitore deve avere gli attributi:
 
-* `data-dt_columns`  definizione delle colonne datatable
-* `data-cdt_options`   permette di modificare le altre opzioni di creaDataTable
+* `data-dt-columns`   definizione delle colonne datatable
+* `data-dt-options`   opzioni datatable
+* `data-cdt-options`  opzioni per la funzione `creaDT` di `_autoDataTable`
 
-tipi e opzioni colonne: <https://datatables.net/reference/option/columns.type>
+> NB: la definizione delle colonne, secondo le specifiche datatable, sono all'interno delle opzioni (`data-dt-options`). È quindi possibile inserile anche in questo elemento, ma, in caso di conflitti, i valori in `data-dt-columns` prevarranno sugli altri.
 
-Richiede [DataTable](https://datatables.net/), [Moment JS](https://momentjs.com/), [Mustache JS](https://github.com/janl/mustache.js/) e [jQuery](https://jquery.com/) (+ alcune utility presenti in questo repository).
+Il contenuto di ogni attributo data deve essere un JSON valido.
+
+Per info su tipo e opzioni delle colonne: <https://datatables.net/reference/option/columns.type>
+
+Utilizza [Mustache JS](https://github.com/janl/mustache.js/).
 
 
-## Installazione
+Per compatibilità con le versioni precedenti, gli attributi data possono essere anche nella forma:
 
-```bash
-npm i --save --only=prod @massimo-cassandro/m-utilities
-npm i --save jquery
-npm i --save datatables.net
+* `data-dt_columns`  : corrisponde a `data-dt-columns`
+* `data-cdt_options` : corrisponde a `data-cdt-options`
+* l'elemento `datatable_options` all'interno di `data-cdt_options` : corrisponde a `data-dt-options`
 
-# SOLO SE SE SI UTILIZZA BOOTSTRAP
-npm i --save datatables.net-bs4
-npm i --save popper.js
-npm i --save bootstrap
+In presenza di entrambe le forme, gli elementi legacy vengono ignorati.
 
-# SOLO SE SI UTILIZZA ANCHE _autoDataTable
-npm i --save moment
-npm i --save mustache
+***
 
-# OPZIONALI, DA CONFIGURARE SE UTILIZZATI
-# npm i --save datatables.net-responsive-bs4
-# npm i --save datatables.net-fixedheader-bs4
-# npm i --save datatables.net-rowreorder-bs4
-```
+`data-dt-columns` contiene l'elemento `dtRender` che imposta molte delle funzionalità di autoDatatable.
 
-## Utilizzo
+Tra gli altri, contiene
 
-### _creaDataTable
+- `bindToForm` : (fac) id del form a cui collegare datatable per fornire strumenti di ricerca avanzati. Se si utilizza un form di ricerca, l'eventuale parametro `ajax` di `datatable_options` viene ignorato, e si utilizza l'attributo `action` del form
+- `formSubmitButtonId` : (fac) id del pulsante submit del form di ricerca, se non indicato viene utilizzato il selettore $(':submit').
+- `storageAllowedReferrers`: path degli url abilitati a conservare lo storage relativo allo stato datatable
 
-```html
-<div id="dt_container"></div>
-```
-
-```js
-import {_creaDataTable} from '@massimo-cassandro/m-utilities/auto-datatables/js/_creaDataTable';
-
-_creaDataTable( '#dt_container', options, true );
-```
-
-Il primo argomento della funzione può essere un selettore css (stringa), un elemento DOM o un oggetto jQuery.
-
-Vedi lo script e [https://github.com/massimo-cassandro/m-utilities/tree/master/auto-datatables/demo/creaDataTable.html]() per altre info.
-
-### _autoDataTable
+Esempio di implementazione (twig):
 
 ```html
+<div class="dt-container"
+  data-cdt-options="{{ {
+    dtRender: {
+      bindToForm: 'dt-ricerca',
+      storageAllowedReferrers: null || [path('__scheda__', { id: null })]
+    }
+  }|json_encode|e('html_attr') }}" 
+
+  data-dt-options="{{ {
+      stateSave: false | default true,
+      ajax: path('__json__'), // non impostare se presente `bindToForm`
+      order: [[1,'asc']]
+      // pageLength: 10,      // fac
+      // ordering: false,     // fac
+      // searching: false     // fac
+    }
+  }|json_encode|e('html_attr') }}" 
+
+  data-dt-columns="{{ [
+    {
+      dtRender  : { type: 'id' }
+    },
+    {
+      title     : 'XXX',
+      name      : 'XXX',
+      dtRender  : {
+        type        : 'tpl',
+        sf_base_url : path('__scheda__', { id: null }),
+        tpl         : '<a href="[[sf_base_url]][[id]]">[[XXX]]</a>'
+      }
+    },
+  
+  ]|json_encode|e('html_attr') }}"></div>
+```
+
+### Collegamento a form di ricerca:
+
+```html
+<form id="dt-search" action="..."> 
+  <!-- form elements -->
+</form>
+
 <div id="datatable_container"
-    data-cdt_options="{ datatable_options: { ... } }"
-    data-dt_columns="[ ... ]"></div>
+  data-cdt-options="{ 
+    dtRender: {
+        bindToForm: 'dt-search'
+    }
+  }"
+  data-dt-options="{ ... }"
+  data-dt-columns="[ ... ]"
+></div>
 ```
-
-Opzione con form di ricerca:
-
-```html
-<form id="form_riceca" action="..."> ... </form>
-<div id="datatable_container"
-    data-cdt_options="{ 
-        dtRender: {
-            bindToForm: 'form_riceca'
-        },
-        datatable_options: { ... }
-    }"
-    data-dt_columns="[ ... ]"></div>
-```
-
-```js
-import $ from 'jquery';
-import {_autoDataTable} from '@massimo-cassandro/m-utilities/auto-datatables/js/_autoDataTable';
-
-_autoDataTable( $('#dt_container') );
-```
-
-Vedi lo script e [https://github.com/massimo-cassandro/m-utilities/tree/master/auto-datatables/demo/autoDataTable.html]() per altre info.
-
-
-## Modifiche rispetto alla versione precedente
-
-* `_creaDataTable` non è più un plugin jQuery, ma un modulo ES6
-* Sono state rimosse le opzioni:
-    * `jQueryObj` (ora viene sempre restituita un'istanza DataTable)
-    * `chainable`
-    * `legacy`
