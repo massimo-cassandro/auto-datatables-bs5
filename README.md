@@ -19,6 +19,7 @@ _creaDataTable({
   container    : '.dt-container',
   cdt_options  : {},
   dt_options   : {},
+  dt_columns   : [],
   jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
   dt_urls : [
     'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js', 
@@ -26,8 +27,9 @@ _creaDataTable({
   ]
 })
 ```
+> NB: normalmente l'array `columns` di datatable è all'interno di `dt_options`, ma può essere gestito separatamente con `dt_columns`
 
-L'elemento `container` può essere un selettore css (stringa), un elemento DOM o un oggetto jQuery.
+L'elemento `container` può essere un selettore css (stringa) o un elemento DOM.
 
 Per ridurre il numero di chiamate è possibile unificare gli url relativi a datatable creando localmente un file unico:
 

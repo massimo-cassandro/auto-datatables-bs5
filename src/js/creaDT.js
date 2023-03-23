@@ -14,7 +14,7 @@ import {parseElementData} from './parse-element-data';
   Restituisce l'istanza del datatable generato
 */
 
-export function creaDT( container, cdt_options = {}, dt_options = {}) {
+export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns = []) {
 
   if(!(container instanceof $)) {
     container = $(container);
@@ -37,17 +37,19 @@ export function creaDT( container, cdt_options = {}, dt_options = {}) {
     }
   }
 
-  const dataOpts = parseElementData(container);
+  const optsFromDataAttr = parseElementData(container);
 
   // opzioni datatable
-  dt_options = $.extend(true, {}, dt_default_options, dataOpts.dt_options, dt_options);
+  dt_options = $.extend(true, {}, dt_default_options, optsFromDataAttr.dt_options, dt_options);
+  // l'array `columns` di `dt_options` può esssre gestito anche separatamente
+  dt_options.columns = [...(dt_options.columns?? []), ...dt_columns];
 
   // configurazione datatable
   $.extend( true, $.fn.dataTable.defaults, dt_options);
   $.extend( $.fn.DataTable.ext.classes, dt_classes );
 
   // opzioni creaDataTable
-  cdt_options = $.extend(true, {}, cdt_default_options, dataOpts.cdt_options, cdt_options);
+  cdt_options = $.extend(true, {}, cdt_default_options, optsFromDataAttr.cdt_options, cdt_options);
 
 
 
