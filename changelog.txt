@@ -4,3 +4,4 @@
 2023-02-20T11:00:57.145Z |      1.0.3 | Fix
 2023-03-23T15:27:21.777Z |            2.0.0 | Versione 2.0.0
 2023-03-23T16:40:33.610Z |            2.0.1 | aggiunta opzione `dt_columns`
+2023-03-24T09:00:30.605Z |            2.0.2 | check presenza `container`
