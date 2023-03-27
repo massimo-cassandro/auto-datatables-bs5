@@ -141,9 +141,15 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
   // (quello eventualmente inserito tramite attributi data è già incluso in `optsFromDataAttr.dt_options`)
   dt_options.columns = [...(dt_options.columns?? []), ...dt_columns];
 
+  // corregge un potenziale errore nelle impostazioni, tollerato nelle versioni precedenti di dt
+  // (per compatibilità con le implementazioni precedenti)
+  dt_options.order = dt_options.order == null? [] : dt_options.order;
+
+
   // configurazione datatable
   $.extend( true, $.fn.DataTable.defaults, dt_options);
   $.extend( $.fn.dataTable.ext.classes, dt_classes );
+
 
   // reset container
   container.html('');
