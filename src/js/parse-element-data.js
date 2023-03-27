@@ -9,7 +9,7 @@ import {renderTpl} from './parse-element-renderType-tpl';
   `container` è un elemento jQuery
 */
 
-export  function parseElementData( container ) {
+export  function parseElementData( container, cdt_options = {} ) {
 
   const opts = {};
 
@@ -22,7 +22,7 @@ export  function parseElementData( container ) {
     //     * `data-cdt_options` : corrisponde a `data-cdt-options`
     //     * l'elemento `datatable_options` all'interno di `data-cdt_options` : corrisponde a `data-dt-options`
 
-    opts.dt_options = {...(data.cdt_options?.datatable_options?? {}), ...(data.dtOptions?? {}) };
+    opts.dt_options = $.extend(true, {}, (data.cdt_options?.datatable_options?? {}), (data.dtOptions?? {}) );
 
     // colonne: possono essere indicare anche all'interno di `opts.dt_options`
     // ma l'elemento `data.dtColumns` ha la priorità
@@ -32,7 +32,7 @@ export  function parseElementData( container ) {
     // rimozione data.cdt_options.datatable_options se presente
     delete data.cdt_options?.datatable_options;
 
-    opts.cdt_options = {...(data.cdt_options?? {}), ...(data.cdtOptions?? {}) };
+    opts.cdt_options = $.extend(true, {}, cdt_options, (data.cdt_options?? {}), (data.cdtOptions?? {}) );
 
 
     // =>> IMPOSTAZIONE COLONNE

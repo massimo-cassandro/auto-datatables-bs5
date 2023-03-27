@@ -38,7 +38,7 @@ export const dt_default_options = {
     targets        : ['_all']
   }],
   ajax             : null,
-  order            : null,
+  order            : [],
   columns          : [],
 
   language              : {

@@ -6,10 +6,12 @@ import {parseElementData} from './parse-element-data';
   creaDataTable
   Genera un datatable da un flusso JSON
 
-  * container è il div entro cui generare il datatable
+  * `container` è il div entro cui generare il datatable
     può essere un selettore o un elemento DOM
-  * cdt_options è un oggetto che contiene i parametri necessari per la configurazione
-  * dt_options è un oggetto con le impostazioni richieste da DataTable.
+  * `cdt_options` è un oggetto che contiene i parametri necessari per la configurazione
+  * `dt_options` è un oggetto con le impostazioni richieste da DataTable.
+  * `dt_columns` è un oggetto con la definizione delle colonne. Normalmente è incluso
+    all'interno di `dt_options`, ma può essere gestito separatamente per comodità
 
   Restituisce l'istanza del datatable generato
 */
@@ -21,14 +23,34 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
   }
 
 
+  // *******************************************
+  // =>> OPZIONI CREADATATABLE
+  // *******************************************
+  cdt_options = $.extend(true, {}, cdt_default_options, cdt_options);
+
+  // =>> parseElementData
+  // lettura valori da attributi da data
+  // va fatto dopo il primo parsing di `cdt_options`, perché ne utilizza delle parti
+  // la versione definitiva di `cdt_options` è quindi quella restituita da `parseElementData`
+  const optsFromDataAttr = parseElementData(container, cdt_options);
+  cdt_options = $.extend({}, optsFromDataAttr.cdt_options);
+
+
+  cdt_options.table_id = 'cdt-' + ( container.attr('id') ? container.attr('id') : 'dom-' + container.index());
+  container.html('');
+
   // form di ricerca
   let form_ricerca = null, form_submit_button = null;
 
   // collegamento a form con parametri di ricerca
   // cdt_options.dtRender.bindToForm corrisponde all'id del form
   if( cdt_options.dtRender && cdt_options.dtRender.bindToForm ) {
+
     form_ricerca = $('#' + cdt_options.dtRender.bindToForm );
-    dt_options.ajax = form_ricerca.attr('action') + '?' + form_ricerca.serialize();
+    dt_options.ajax = {
+      url: form_ricerca.attr('action') + '?' + form_ricerca.serialize(),
+      // dataSrc: ''
+    };
 
     if(cdt_options.dtRender.formSubmitButtonId) {
       form_submit_button = $('#' + cdt_options.dtRender.formSubmitButtonId );
@@ -36,25 +58,6 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
       form_submit_button = $( ':submit', form_ricerca );
     }
   }
-
-  const optsFromDataAttr = parseElementData(container);
-
-  // opzioni datatable
-  dt_options = $.extend(true, {}, dt_default_options, optsFromDataAttr.dt_options, dt_options);
-  // l'array `columns` di `dt_options` può esssre gestito anche separatamente
-  dt_options.columns = [...(dt_options.columns?? []), ...dt_columns];
-
-  // configurazione datatable
-  $.extend( true, $.fn.dataTable.defaults, dt_options);
-  $.extend( $.fn.DataTable.ext.classes, dt_classes );
-
-  // opzioni creaDataTable
-  cdt_options = $.extend(true, {}, cdt_default_options, optsFromDataAttr.cdt_options, cdt_options);
-
-
-
-  cdt_options.table_id = 'cdt-' + ( container.attr('id') ? container.attr('id') : 'dom-' + container.index());
-  container.html('');
 
   // eliminazione parametri di ricerca salvati se la pagina di provenienza non
   // inclusa nel parametro cdt_options.dtRender.storageAllowedReferrers
@@ -129,6 +132,19 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
 
   } // end salvataggio parametri form ricerca
 
+
+  // *******************************************
+  // =>> IMPOSTAZIONE OPZIONI DATATABLE
+  // *******************************************
+  dt_options = $.extend(true, {}, dt_default_options, optsFromDataAttr.dt_options, dt_options);
+  // l'array `columns` di `dt_options` può essere gestito anche separatamente nel js
+  // (quello eventualmente inserito tramite attributi data è già incluso in `optsFromDataAttr.dt_options`)
+  dt_options.columns = [...(dt_options.columns?? []), ...dt_columns];
+
+  // configurazione datatable
+  $.extend( true, $.fn.DataTable.defaults, dt_options);
+  $.extend( $.fn.dataTable.ext.classes, dt_classes );
+
   // reset container
   container.html('');
 
@@ -155,7 +171,7 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
 
   container.data('table_id', cdt_options.table_id);
 
-  const this_datatable = $('#' + cdt_options.table_id ).DataTable(dt_options);  // datatable istance
+  const this_datatable = $('#' + cdt_options.table_id ).dataTable(dt_options);  // datatable istance
 
   if(form_ricerca !== null ) {
 
