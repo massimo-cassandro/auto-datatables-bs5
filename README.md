@@ -90,7 +90,6 @@ In presenza di entrambe le forme, gli elementi legacy vengono ignorati.
 Tra gli altri, contiene
 
 - `bindToForm` : (fac) id del form a cui collegare datatable per fornire strumenti di ricerca avanzati. Se si utilizza un form di ricerca, l'eventuale parametro `ajax` di `datatable_options` viene ignorato, e si utilizza l'attributo `action` del form
-- `formSubmitButtonId` : (fac) id del pulsante submit del form di ricerca, se non indicato viene utilizzato il selettore $(':submit').
 - `storageAllowedReferrers`: path degli url abilitati a conservare lo storage relativo allo stato datatable
 
 Esempio di implementazione (twig):

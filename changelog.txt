@@ -8,3 +8,4 @@
 2023-03-27T09:53:11.788Z |            2.0.3 | Fix
 2023-03-27T11:00:27.945Z |            2.0.4 | fix
 2023-03-28T08:44:47.026Z |            2.0.5 | fix
+2023-03-28T09:23:06.681Z |            2.0.6 | rimozione opzione `dtRender.formSubmitButtonId`

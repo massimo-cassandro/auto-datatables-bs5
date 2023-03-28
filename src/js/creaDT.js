@@ -40,7 +40,7 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
   container.html('');
 
   // form di ricerca
-  let form_ricerca = null, form_submit_button = null;
+  let form_ricerca = null;
 
   // collegamento a form con parametri di ricerca
   // cdt_options.dtRender.bindToForm corrisponde all'id del form
@@ -51,12 +51,6 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
       url: form_ricerca.attr('action') + '?' + form_ricerca.serialize(),
       // dataSrc: ''
     };
-
-    if(cdt_options.dtRender.formSubmitButtonId) {
-      form_submit_button = $('#' + cdt_options.dtRender.formSubmitButtonId );
-    } else {
-      form_submit_button = $( ':submit', form_ricerca );
-    }
   }
 
   // eliminazione parametri di ricerca salvati se la pagina di provenienza non
@@ -183,11 +177,8 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
 
     form_ricerca.on('submit', function (event) {
       event.preventDefault();
-      form_submit_button.prop('disabled', false);
 
       this_datatable.ajax.url( form_ricerca.attr('action')+ '?' + form_ricerca.serialize() ).load();
-
-      //console.log(formSubmitButton);
 
     }); // end submit
   }
