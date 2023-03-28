@@ -177,7 +177,7 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
 
   container.data('table_id', cdt_options.table_id);
 
-  const this_datatable = $('#' + cdt_options.table_id ).dataTable(dt_options);  // datatable istance
+  const this_datatable = $('#' + cdt_options.table_id ).DataTable(dt_options);  // datatable istance NB DataTable e non dataTable!!!
 
   if(form_ricerca !== null ) {
 
