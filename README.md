@@ -44,9 +44,9 @@ cat jquery jquery.dataTables.min.js dataTables.bootstrap5.min.js > dt.js
 ```
 
 ```js
-import {_creaDataTable} from '@massimo-cassandro/auto-datatables-bs5';
+import {_autoDataTable} from '@massimo-cassandro/auto-datatables-bs5';
 
-_creaDataTable({
+_autoDataTable({
   container    : '.dt-container',
   cdt_options  : {},
   dt_options   : {},
