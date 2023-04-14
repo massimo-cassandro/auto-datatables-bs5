@@ -1,7 +1,7 @@
 export const dt_default_options = {
   dom:
     // controlli
-    '<\'row justify-content-between d-print-none\'<\'col-sm-auto\'l><\'col-sm-auto\'f>>' +
+    '<\'row justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
     // table + processing
     //"<'position-relative'tr>" +
     // table + processing
@@ -54,17 +54,13 @@ export const dt_default_options = {
     infoFiltered                          : '(filtrati da <strong>_MAX_</strong> record)',
     infoPostFix                           : '',
     lengthMenu:
-      '<div class="d-sm-flex">' +
         '<div>Mostra</div>' +
-        '<div class="dt-control mx-sm-2">_MENU_</div>' +
-        '<div>record per pagina</div>' +
-      '</div>',
+        '<div class="dt-control">_MENU_</div>' +
+        '<div class="flex-grow-1">record per pagina</div>',
     loadingRecords                        : '<em class="small">Attendi&hellip;</em>',
     search :
-      '<div class="d-sm-flex">' +
         '<div class="mr-sm-2">Filtra risultati:</div>' +
-        '<div class="dt-control">_INPUT_</div>' +
-      '</div>',
+        '<div class="dt-control">_INPUT_</div>',
     zeroRecords                           : '<strong>Nessun record trovato</strong>',
     url                                   : '',
 

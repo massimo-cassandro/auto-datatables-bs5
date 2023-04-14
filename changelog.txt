@@ -14,3 +14,4 @@
 2023-04-14T13:10:40.056Z |            2.0.8 | readme fix
 2023-04-14T13:36:50.944Z |            2.1.0 | datatable default options export
 2023-04-14T14:12:49.044Z |            2.1.1 | `dt_classes` export
+2023-04-14T14:34:18.988Z |            2.1.2 | layout fix

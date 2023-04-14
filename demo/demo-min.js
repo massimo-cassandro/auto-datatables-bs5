@@ -4,7 +4,7 @@
   const dt_default_options = {
     dom:
       // controlli
-      '<\'row justify-content-between d-print-none\'<\'col-sm-auto\'l><\'col-sm-auto\'f>>' +
+      '<\'row justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
       // table + processing
       //"<'position-relative'tr>" +
       // table + processing
@@ -41,7 +41,7 @@
       targets        : ['_all']
     }],
     ajax             : null,
-    order            : null,
+    order            : [],
     columns          : [],
 
     language              : {
@@ -57,17 +57,13 @@
       infoFiltered                          : '(filtrati da <strong>_MAX_</strong> record)',
       infoPostFix                           : '',
       lengthMenu:
-        '<div class="d-sm-flex">' +
           '<div>Mostra</div>' +
-          '<div class="dt-control mx-sm-2">_MENU_</div>' +
-          '<div>record per pagina</div>' +
-        '</div>',
+          '<div class="dt-control">_MENU_</div>' +
+          '<div class="flex-grow-1">record per pagina</div>',
       loadingRecords                        : '<em class="small">Attendi&hellip;</em>',
       search :
-        '<div class="d-sm-flex">' +
           '<div class="mr-sm-2">Filtra risultati:</div>' +
-          '<div class="dt-control">_INPUT_</div>' +
-        '</div>',
+          '<div class="dt-control">_INPUT_</div>',
       zeroRecords                           : '<strong>Nessun record trovato</strong>',
       url                                   : '',
 
@@ -219,8 +215,6 @@
         time_wrapper: '<small></small>' // HTML string or null or ''
       }
     },
-
-    debug: false,
 
     container_header: null, //'Risultato della ricerca', // se presente aggiunge un header prima della tabella
     container_class: 'dt-container', // classe che viene assegnata al div che contiene la tabella
@@ -1453,7 +1447,7 @@
     `container` è un elemento jQuery
   */
 
-  function parseElementData( container ) {
+  function parseElementData( container, cdt_options = {} ) {
 
     const opts = {};
 
@@ -1466,7 +1460,7 @@
       //     * `data-cdt_options` : corrisponde a `data-cdt-options`
       //     * l'elemento `datatable_options` all'interno di `data-cdt_options` : corrisponde a `data-dt-options`
 
-      opts.dt_options = {...(data.cdt_options?.datatable_options?? {}), ...(data.dtOptions?? {}) };
+      opts.dt_options = $.extend(true, {}, (data.cdt_options?.datatable_options?? {}), (data.dtOptions?? {}) );
 
       // colonne: possono essere indicare anche all'interno di `opts.dt_options`
       // ma l'elemento `data.dtColumns` ha la priorità
@@ -1476,7 +1470,7 @@
       // rimozione data.cdt_options.datatable_options se presente
       delete data.cdt_options?.datatable_options;
 
-      opts.cdt_options = {...(data.cdt_options?? {}), ...(data.cdtOptions?? {}) };
+      opts.cdt_options = $.extend(true, {}, cdt_options, (data.cdt_options?? {}), (data.cdtOptions?? {}) );
 
 
       // =>> IMPOSTAZIONE COLONNE
@@ -1722,53 +1716,52 @@
     creaDataTable
     Genera un datatable da un flusso JSON
 
-    * container è il div entro cui generare il datatable
+    * `container` è il div entro cui generare il datatable
       può essere un selettore o un elemento DOM
-    * cdt_options è un oggetto che contiene i parametri necessari per la configurazione
-    * dt_options è un oggetto con le impostazioni richieste da DataTable.
+    * `cdt_options` è un oggetto che contiene i parametri necessari per la configurazione
+    * `dt_options` è un oggetto con le impostazioni richieste da DataTable.
+    * `dt_columns` è un oggetto con la definizione delle colonne. Normalmente è incluso
+      all'interno di `dt_options`, ma può essere gestito separatamente per comodità
 
     Restituisce l'istanza del datatable generato
   */
 
-  function creaDT( container, cdt_options = {}, dt_options = {}) {
+  function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns = []) {
 
     if(!(container instanceof $)) {
       container = $(container);
     }
 
 
-    // form di ricerca
-    let form_ricerca = null, form_submit_button = null;
+    // *******************************************
+    // =>> OPZIONI CREADATATABLE
+    // *******************************************
+    cdt_options = $.extend(true, {}, cdt_default_options, cdt_options);
 
-    // collegamento a form con parametri di ricerca
-    // cdt_options.dtRender.bindToForm corrisponde all'id del form
-    if( cdt_options.dtRender && cdt_options.dtRender.bindToForm ) {
-      form_ricerca = $('#' + cdt_options.dtRender.bindToForm );
-      dt_options.ajax = form_ricerca.attr('action') + '?' + form_ricerca.serialize();
-
-      if(cdt_options.dtRender.formSubmitButtonId) {
-        form_submit_button = $('#' + cdt_options.dtRender.formSubmitButtonId );
-      } else {
-        form_submit_button = $( ':submit', form_ricerca );
-      }
-    }
-
-    const dataOpts = parseElementData(container);
-
-    // opzioni datatable
-    dt_options = $.extend(true, {}, dt_default_options, dataOpts.dt_options, dt_options);
-
-    // configurazione datatable
-    $.extend( true, $.fn.dataTable.defaults, dt_options);
-    $.extend( $.fn.DataTable.ext.classes, dt_classes );
-
-    // opzioni creaDataTable
-    cdt_options = $.extend(true, {}, cdt_default_options, dataOpts.cdt_options, cdt_options);
-
+    // =>> parseElementData
+    // lettura valori da attributi da data
+    // va fatto dopo il primo parsing di `cdt_options`, perché ne utilizza delle parti
+    // la versione definitiva di `cdt_options` è quindi quella restituita da `parseElementData`
+    const optsFromDataAttr = parseElementData(container, cdt_options);
+    cdt_options = $.extend({}, optsFromDataAttr.cdt_options);
 
 
     cdt_options.table_id = 'cdt-' + ( container.attr('id') ? container.attr('id') : 'dom-' + container.index());
     container.html('');
+
+    // form di ricerca
+    let form_ricerca = null;
+
+    // collegamento a form con parametri di ricerca
+    // cdt_options.dtRender.bindToForm corrisponde all'id del form
+    if( cdt_options.dtRender && cdt_options.dtRender.bindToForm ) {
+
+      form_ricerca = $('#' + cdt_options.dtRender.bindToForm );
+      dt_options.ajax = {
+        url: form_ricerca.attr('action') + '?' + form_ricerca.serialize(),
+        // dataSrc: ''
+      };
+    }
 
     // eliminazione parametri di ricerca salvati se la pagina di provenienza non
     // inclusa nel parametro cdt_options.dtRender.storageAllowedReferrers
@@ -1843,6 +1836,25 @@
 
     } // end salvataggio parametri form ricerca
 
+
+    // *******************************************
+    // =>> IMPOSTAZIONE OPZIONI DATATABLE
+    // *******************************************
+    dt_options = $.extend(true, {}, dt_default_options, optsFromDataAttr.dt_options, dt_options);
+    // l'array `columns` di `dt_options` può essere gestito anche separatamente nel js
+    // (quello eventualmente inserito tramite attributi data è già incluso in `optsFromDataAttr.dt_options`)
+    dt_options.columns = [...(dt_options.columns?? []), ...dt_columns];
+
+    // corregge un potenziale errore nelle impostazioni, tollerato nelle versioni precedenti di dt
+    // (per compatibilità con le implementazioni precedenti)
+    dt_options.order = dt_options.order == null? [] : dt_options.order;
+
+
+    // configurazione datatable
+    $.extend( true, $.fn.DataTable.defaults, dt_options);
+    $.extend( $.fn.dataTable.ext.classes, dt_classes );
+
+
     // reset container
     container.html('');
 
@@ -1869,17 +1881,14 @@
 
     container.data('table_id', cdt_options.table_id);
 
-    const this_datatable = $('#' + cdt_options.table_id ).DataTable(dt_options);  // datatable istance
+    const this_datatable = $('#' + cdt_options.table_id ).DataTable(dt_options);  // datatable istance NB DataTable e non dataTable!!!
 
     if(form_ricerca !== null ) {
 
       form_ricerca.on('submit', function (event) {
         event.preventDefault();
-        form_submit_button.prop('disabled', false);
 
         this_datatable.ajax.url( form_ricerca.attr('action')+ '?' + form_ricerca.serialize() ).load();
-
-        //console.log(formSubmitButton);
 
       }); // end submit
     }
@@ -1896,62 +1905,73 @@
 
   function _autoDataTable( opts ) {
 
-    opts = {...{
-      // defaults
-      container    : '.dt-container',
-      cdt_options  : {},
-      dt_options   : {},
-      jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
-      dt_urls: [
-        'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',
-        'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js'
-      ]
+    try {
+      opts = {...{
+        // defaults
+        container    : '.dt-container',
+        cdt_options  : {},
+        dt_options   : {},
+        dt_columns   : [], // normalmente l'array `columns` è all'interno di `dt_options`, ma può essere gestito separatamente
+        jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
+        dt_urls: [
+          'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',
+          'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js'
+        ]
 
-    },...opts };
+      },...opts };
 
-    opts.container = typeof opts.container === 'string'? document.querySelector(opts.container) : opts.container;
+      opts.container = (opts.container && typeof opts.container === 'string')? document.querySelector(opts.container) : opts.container;
 
-    // spinner
-    opts.container.innerHTML =
-      `<div class="d-flex justify-content-center">
-      <div class="spinner-border spinner-border-sm my-1 text-muted" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>`;
-
-    jquery_loader(opts.jquery_url, () => {
-
-      if(opts.dt_urls && opts.dt_urls.length && !Window.dt_loaded ) {
-
-        return (async () => {
-
-          const result = await Promise.all(
-            opts.dt_urls.map((u, idx) =>
-              new Promise(resolve => {
-                const script = document.createElement('script');
-                script.onload = function() {
-                  resolve();
-                };
-                script.src = u;
-                script.async = false;
-                script.className = `dt${idx}`;
-                document.head.appendChild(script);
-              })
-            )
-          )
-            .then(() => {
-              Window.dt_loaded = true;
-              return creaDT(opts.container, opts.cdt_options, opts.dt_options);
-            });
-
-          return result;
-
-        })();
-
-      } else {
-        return creaDT(opts.container, opts.cdt_options, opts.dt_options);
+      if(!opts.container) {
+        throw 'auto-datatable:`container` non presente o non definito';
       }
-    });
+
+      // spinner
+      opts.container.innerHTML =
+        `<div class="d-flex justify-content-center">
+        <div class="spinner-border spinner-border-sm my-1 text-muted" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>`;
+
+      jquery_loader(opts.jquery_url, () => {
+
+        if(opts.dt_urls && opts.dt_urls.length && !Window.dt_loaded ) {
+
+          return (async () => {
+
+            const result = await Promise.all(
+              opts.dt_urls.map((u, idx) =>
+                new Promise(resolve => {
+                  const script = document.createElement('script');
+                  script.onload = function() {
+                    resolve();
+                  };
+                  script.src = u;
+                  script.async = false;
+                  script.className = `dt${idx}`;
+                  document.head.appendChild(script);
+                })
+              )
+            )
+              .then(() => {
+                Window.dt_loaded = true;
+                return creaDT(opts.container, opts.cdt_options, opts.dt_options, opts.dt_columns);
+              });
+
+            return result;
+
+          })();
+
+        } else {
+          return creaDT(opts.container, opts.cdt_options, opts.dt_options, opts.dt_columns);
+        }
+      });
+
+    } catch(e) {
+      console.error( e ); // eslint-disable-line
+    }
+
 
   }
 
