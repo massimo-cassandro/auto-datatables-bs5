@@ -12,10 +12,10 @@ Dalla versione 2.x sia jQuery che datatable non vengoino inclusi nello script, m
 ```
 
 ```js
-import {_creaDataTable} from '@massimo-cassandro/auto-datatables-bs5';
+import {_autoDataTable} from '@massimo-cassandro/auto-datatables-bs5';
 
 // i valori indicati sono quelli di default
-_creaDataTable({
+_autoDataTable({
   container    : '.dt-container',
   cdt_options  : {},
   dt_options   : {},
