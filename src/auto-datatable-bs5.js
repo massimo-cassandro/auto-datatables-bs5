@@ -5,8 +5,9 @@ import { jquery_loader } from '@massimo-cassandro/js-utilities';
 // TODO fare in modo che le funzione restituisca l'istanza datatable
 // FIXME rivedere ed eliminare variabile globale Window.dt_loaded
 
-Window.dt_loaded = false; // impedisce il ricaricamento degli scriptydatatable in caso la funzione sia richiamata più volte
-// caricamento manule degli script datatable
+Window.dt_loaded = false; // impedisce il ricaricamento degli script datatable in caso la funzione sia richiamata più volte
+
+// caricamento manuale degli script datatable
 if(document.querySelectorAll('script.dt').length) {
   Window.dt_loaded = true;
 }
