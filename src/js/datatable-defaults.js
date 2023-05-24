@@ -7,7 +7,7 @@ export const dt_default_options = {
     // table + processing
     '<\'table-responsive-md\'t>r' +
     // info + paginazione
-    '<\'row g-0 mt-2 d-print-none\'<\'col-sm-5 col-md-6 small\'i><\'col-sm-7 col-md-6\'p>>',
+    '<\'row mx-0 mt-2 d-print-none\'<\'col-sm-5 col-md-6 small\'i><\'col-sm-7 col-md-6\'p>>',
 
   renderer                                : 'bootstrap',
   stripeClasses                           : [], // disabilita stripe classes
