@@ -1,7 +1,7 @@
 export const dt_default_options = {
   dom:
     // controlli
-    '<\'row justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
+    '<\'d-flex justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
     // table + processing
     //"<'position-relative'tr>" +
     // table + processing
