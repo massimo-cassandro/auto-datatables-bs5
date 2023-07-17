@@ -26,7 +26,7 @@ export  function parseElementData( container, cdt_options = {} ) {
 
     // colonne: possono essere indicare anche all'interno di `opts.dt_options`
     // ma l'elemento `data.dtColumns` ha la priorità
-    const dt_columns = [...(opts.dt_options.columns?? []), ...(data.dt_columns?? []), ...(data.dtColumns?? [])];
+    const dt_columns = [...(opts.dt_options.columns?? []), ...(data.dt_columns?? []), ...(data.dtColumns?? [])]
 
 
     // rimozione data.cdt_options.datatable_options se presente

@@ -20,7 +20,11 @@ export function _autoDataTable( opts ) {
       container    : '.dt-container',
       cdt_options  : {},
       dt_options   : {},
+
+      // DEPRECATO. preferire l'array `columns` all'interno di `dt_options`
       dt_columns   : [], // normalmente l'array `columns` è all'interno di `dt_options`, ma può essere gestito separatamente
+
+
       jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
       dt_urls: [
         'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',

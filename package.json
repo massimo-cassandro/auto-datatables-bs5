@@ -1,6 +1,6 @@
 {
   "name": "@massimo-cassandro/auto-datatables-bs5",
-  "version": "2.1.7",
+  "version": "2.2.0",
   "description": "jQuery datatables utilities (bootstrap 5)",
   "author": "Massimo Cassandro",
   "license": "MIT",
@@ -44,15 +44,15 @@
     "index.js"
   ],
   "devDependencies": {
-    "@massimo-cassandro/dev-utilities": "^1.12.5",
-    "@massimo-cassandro/linters-config": "^1.4.0",
+    "@massimo-cassandro/dev-utilities": "^1.18.1",
+    "@massimo-cassandro/linters-config": "^1.4.6",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "bootstrap": "^5.2.3",
     "rollup": "^3.20.0",
     "sass": "^1.59.3"
   },
   "dependencies": {
-    "@massimo-cassandro/js-utilities": "^1.2.0",
+    "@massimo-cassandro/js-utilities": "^1.3.0",
     "mustache": "^4.2.0"
   }
 }

@@ -27,12 +27,18 @@ _autoDataTable({
       },
       {
         title      : 'Cognome',
-        data       : 'lastName'
+        data       : 'lastName',
+        visible: false
       },
       {
         title      : 'Nome',
-        data       : 'firstName'
+        data: 'firstName',
+        render       : (data, type, row) => {
+          return row.firstName + ' ' + row.lastName;
+        },
+
       },
+
       {
         title      : 'Sede',
         data       : 'office'

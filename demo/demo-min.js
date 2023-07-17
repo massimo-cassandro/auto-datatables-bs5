@@ -4,13 +4,13 @@
   const dt_default_options = {
     dom:
       // controlli
-      '<\'row justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
+      '<\'d-flex justify-content-between d-print-none\'<\'col-sm-auto flex-grow-1\'l><\'col-sm-auto\'f>>' +
       // table + processing
       //"<'position-relative'tr>" +
       // table + processing
       '<\'table-responsive-md\'t>r' +
       // info + paginazione
-      '<\'row mt-2 d-print-none\'<\'col-sm-5 col-md-6 small\'i><\'col-sm-7 col-md-6\'p>>',
+      '<\'row mx-0 mt-2 d-print-none\'<\'col-sm-5 col-md-6 small\'i><\'col-sm-7 col-md-6\'p>>',
 
     renderer                                : 'bootstrap',
     stripeClasses                           : [], // disabilita stripe classes
@@ -318,6 +318,7 @@
   }
 
   function formatDateTime(d = '', format_options) {
+    // NB se time === false, non viene mostrata
     const default_options = {
       date: {
         year: 'numeric',
@@ -355,16 +356,18 @@
         str += formatDate(d, format_options.date);
       }
 
-      str += format_options.separator;
+      if(format_options.time !== false) {
+        str += format_options.separator;
 
-      if(format_options.time_wrapper) {
-        w = document.createElement('div');
-        w.innerHTML = format_options.time_wrapper;
-        w.lastChild.innerHTML = formatTime(d, format_options.time);
-        str += w.innerHTML;
+        if(format_options.time_wrapper) {
+          w = document.createElement('div');
+          w.innerHTML = format_options.time_wrapper;
+          w.lastChild.innerHTML = formatTime(d, format_options.time);
+          str += w.innerHTML;
 
-      } else {
-        str += formatTime(d, format_options.time);
+        } else {
+          str += formatTime(d, format_options.time);
+        }
       }
 
       return str;
@@ -1901,7 +1904,12 @@
   // TODO fare in modo che le funzione restituisca l'istanza datatable
   // FIXME rivedere ed eliminare variabile globale Window.dt_loaded
 
-  Window.dt_loaded = false; // impedisce il ricaricamento defli scripty datatable in caso la funzione sia richiamata più volte
+  Window.dt_loaded = false; // impedisce il ricaricamento degli script datatable in caso la funzione sia richiamata più volte
+
+  // caricamento manuale degli script datatable
+  if(document.querySelectorAll('script.dt').length) {
+    Window.dt_loaded = true;
+  }
 
   function _autoDataTable( opts ) {
 
@@ -1911,7 +1919,11 @@
         container    : '.dt-container',
         cdt_options  : {},
         dt_options   : {},
+
+        // DEPRECATO. preferire l'array `columns` all'interno di `dt_options`
         dt_columns   : [], // normalmente l'array `columns` è all'interno di `dt_options`, ma può essere gestito separatamente
+
+
         jquery_url   : 'https://code.jquery.com/jquery-3.6.3.min.js',
         dt_urls: [
           'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',
@@ -2002,12 +2014,18 @@
         },
         {
           title      : 'Cognome',
-          data       : 'lastName'
+          data       : 'lastName',
+          visible: false
         },
         {
           title      : 'Nome',
-          data       : 'firstName'
+          data: 'firstName',
+          render       : (data, type, row) => {
+            return row.firstName + ' ' + row.lastName;
+          },
+
         },
+
         {
           title      : 'Sede',
           data       : 'office'
