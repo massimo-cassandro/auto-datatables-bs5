@@ -18,7 +18,7 @@
   "scripts": {
     "UPD-version": "npx update-version",
     "upd @m": "npx upd@m",
-    "npm publish": "npm publish",
+    "npm-publish": "npm publish",
     "demo rollup": "npx rollup --config ./demo/rollup.config.mjs --watch",
     "demo sass": "npx sass ./demo/demo.scss:./demo/demo.css --load-path=./node_modules/ --style=expanded --watch",
     "demo server": "python3 -m http.server"
