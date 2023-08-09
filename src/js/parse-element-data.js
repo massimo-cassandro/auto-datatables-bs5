@@ -72,6 +72,19 @@ export  function parseElementData( container, cdt_options = {} ) {
     */
     opts.dt_options.columns = dt_columns.map( item => {
 
+      // defaults
+      if(item.data && !item.name) {
+        item.name = item.data;
+      }
+      if(item.name && !item.data) {
+        item.data = item.name;
+      }
+
+      if( item.type === undefined) {
+        item.type = 'string';
+      }
+
+
       if(item.dtRender !== undefined ) {
 
         item.dtRender.field = item.dtRender.field || item.name || item.data;
@@ -245,21 +258,6 @@ export  function parseElementData( container, cdt_options = {} ) {
 
         //delete item.dtRender;
 
-
-      } else {
-
-        // datatable std items
-
-        if(item.data && !item.name) {
-          item.name = item.data;
-        }
-        if(item.name && !item.data) {
-          item.data = item.name;
-        }
-
-        if( item.type === undefined) {
-          item.type = 'string';
-        }
 
       } // end if(item.dtRender !== undefined )
 
