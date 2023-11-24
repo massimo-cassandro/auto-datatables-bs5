@@ -1,6 +1,6 @@
 import mustache from 'mustache/mustache.mjs';
 import {mesi} from '@massimo-cassandro/js-utilities';
-import { dateStringToISO, formatDate, formatTime, formatDateTime } from '@massimo-cassandro/js-utilities';
+import { formatDate, formatTime, formatDateTime } from '@massimo-cassandro/js-utilities';
 
 
 export function renderTpl(item, opts) {
@@ -83,7 +83,7 @@ export function renderTpl(item, opts) {
 
             case 'sf_date_isSameOrBeforeNow':
               if(row[i] !== null) {
-                row[i] = dateStringToISO(row[i].date) <= dateStringToISO();
+                row[i] = new Date(row[i].date) <= new Date();
               } else {
                 row[i] = false;
               }
@@ -91,7 +91,7 @@ export function renderTpl(item, opts) {
 
             case 'sf_date_isSameOrAfterNow':
               if(row[i] !== null) {
-                row[i] = dateStringToISO(row[i].date) >= dateStringToISO();
+                row[i] = new Date(row[i].date) >= new Date();
               } else {
                 row[i] = false;
               }
