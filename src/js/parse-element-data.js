@@ -184,12 +184,13 @@ export  function parseElementData( container, cdt_options = {} ) {
           case 'num':
             item.dtRender.decimali = item.dtRender.decimali || 0;
             item.data = function (row) {
-              return row[item.dtRender.field]?
+              return !isNaN(row[item.dtRender.field])?
                 row[item.dtRender.field].toLocaleString('it-IT', {
                   minimumFractionDigits: +item.dtRender.decimali,
                   maximumFractionDigits: +item.dtRender.decimali
                 })
-                  .replace(/,(\d+)/, ',<span class="' + opts.cdt_options.formats.decimals_class + '">$1</span>') : '';
+                  .replace(/,(\d+)/, ',<span class="' + opts.cdt_options.formats.decimals_class + '">$1</span>')
+                : row[item.dtRender.field];
             };
             item.type = 'num'; // 'num-fmt'
             item.render = function ( data, type, row ) {
