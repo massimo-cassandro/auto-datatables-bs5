@@ -184,7 +184,7 @@ export  function parseElementData( container, cdt_options = {} ) {
           case 'num':
             item.dtRender.decimali = item.dtRender.decimali || 0;
             item.data = function (row) {
-              return !isNaN(row[item.dtRender.field])?
+              return (row[item.dtRender.field] && !isNaN(row[item.dtRender.field]))?
                 row[item.dtRender.field].toLocaleString('it-IT', {
                   minimumFractionDigits: +item.dtRender.decimali,
                   maximumFractionDigits: +item.dtRender.decimali

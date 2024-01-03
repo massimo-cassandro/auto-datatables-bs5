@@ -1,6 +1,6 @@
 {
   "name": "@massimo-cassandro/auto-datatables-bs5",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "jQuery datatables utilities (bootstrap 5)",
   "author": "Massimo Cassandro",
   "license": "MIT",
