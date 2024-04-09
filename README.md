@@ -4,7 +4,7 @@ Generazione automatica di datatable a partire da un flusso JSON.
 
 Richiede [DataTable](https://datatables.net/), e [jQuery](https://jquery.com/).
 
-Dalla versione 2.x sia jQuery che datatable non vengoino inclusi nello script, ma caricati tramite file esterni.
+Dalla versione 2.x sia jQuery che datatable non vengono inclusi nello script, ma caricati tramite file esterni.
 
 ## Utilizzo
 ```html

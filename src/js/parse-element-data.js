@@ -185,7 +185,7 @@ export  function parseElementData( container, cdt_options = {} ) {
             item.dtRender.decimali = item.dtRender.decimali || 0;
             item.data = function (row) {
               return (row[item.dtRender.field] && !isNaN(row[item.dtRender.field]))?
-                row[item.dtRender.field].toLocaleString('it-IT', {
+                (+row[item.dtRender.field]).toLocaleString('it-IT', {
                   minimumFractionDigits: +item.dtRender.decimali,
                   maximumFractionDigits: +item.dtRender.decimali
                 })
@@ -195,7 +195,7 @@ export  function parseElementData( container, cdt_options = {} ) {
             item.type = 'num'; // 'num-fmt'
             item.render = function ( data, type, row ) {
               if(type === 'sort' || type === 'filter') {
-                return row[item.dtRender.field];
+                return +row[item.dtRender.field];
               } else {
                 return data;
               }
@@ -212,7 +212,7 @@ export  function parseElementData( container, cdt_options = {} ) {
 
             item.data = function (row) {
               return row[item.dtRender.field] ? '<span class="' + opts.cdt_options.formats.euro_class + '">' +
-                row[item.dtRender.field].toLocaleString('it-IT', {
+                (+row[item.dtRender.field]).toLocaleString('it-IT', {
                   minimumFractionDigits: +item.dtRender.decimali,
                   maximumFractionDigits: +item.dtRender.decimali
                 })
@@ -221,7 +221,7 @@ export  function parseElementData( container, cdt_options = {} ) {
             };
             item.render = function ( data, type, row ) {
               if(type === 'sort' || type === 'filter') {
-                return row[item.dtRender.field];
+                return +row[item.dtRender.field];
               } else {
                 return data;
               }
