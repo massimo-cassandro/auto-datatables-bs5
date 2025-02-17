@@ -232,9 +232,10 @@ export  function parseElementData( container, cdt_options = {} ) {
 
           case 'bool_icons':
             item.data = function (row) {
-              var true_icon   = item.dtRender.true_icon ? item.dtRender.true_icon : opts.cdt_options.icone.ok,
+              var true_icon = item.dtRender.true_icon ? item.dtRender.true_icon : opts.cdt_options.icone.ok,
                 false_icon  = item.dtRender.false_icon !== undefined ? item.dtRender.false_icon : opts.cdt_options.icone.off,
-                null_icon   = item.dtRender.null_icon !== undefined ? item.dtRender.null_icon : opts.cdt_options.icone.off
+                null_icon   = item.dtRender.null_icon !== undefined ? item.dtRender.null_icon :
+                  (item.dtRender.false_icon !== undefined ? item.dtRender.false_icon : opts.cdt_options.icone.off)
                 ;
 
               if(row[item.dtRender.field] === null) {
