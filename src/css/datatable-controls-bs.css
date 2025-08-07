@@ -1,0 +1,63 @@
+/* .m-datatable {} */
+
+/* datatable controls */
+.datatable-length, .datatable-filter {
+
+  label {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: .85rem;
+    font-weight: 400;
+
+    > div {
+      flex: 1 1 auto;
+    }
+
+    /* allineamento prima parte del testo */
+    > div:nth-child(1) {
+      flex: 0 0 6.5em;
+      text-align: right;
+    }
+  }
+
+}
+
+.datatable-length {
+  .dt-control {
+    flex: 0 0 7em;
+    padding: 0 1em;
+  }
+}
+.datatable-filter {
+  .dt-control {
+    padding-left: 1em;
+  }
+}
+
+@media (min-width: 576px)  {
+
+  .datatable-length, .datatable-filter {
+
+    label {
+      > div {
+        flex: 0 1 auto;
+      }
+      >div:nth-child(1) {
+        flex-basis: auto;
+        text-align: left;
+      }
+    }
+  }
+
+  .datatable-filter {
+    label {
+      justify-content: flex-end;
+    }
+  }
+
+}
+

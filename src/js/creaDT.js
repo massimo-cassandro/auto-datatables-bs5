@@ -1,3 +1,5 @@
+/* globals $ */
+
 import {dt_default_options, dt_classes} from './datatable-defaults';
 import {cdt_default_options} from './creaDataTable-defaults';
 import {parseElementData} from './parse-element-data';
@@ -157,7 +159,7 @@ export function creaDT( container, cdt_options = {}, dt_options = {}, dt_columns
       dt_options.aoColumns.length : dt_options.columns.length;
 
 
-  container.addClass((cdt_options.container_class + ' m-datatable').trim())
+  container.addClass((cdt_options.container_class + ' m-datatable' + (cdt_options.use_sorting_arrow? ' w-arrow': '' )).trim())
     .append(
       '<table id="' + cdt_options.table_id + '" class="' + cdt_options.table_class + '">' +
       (cdt_options.table_caption? '<caption>'+cdt_options.table_caption+'</caption>' : '') +

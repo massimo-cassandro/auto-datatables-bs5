@@ -1,0 +1,78 @@
+/* stylelint-disable declaration-no-important */
+/* stylelint-disable selector-class-pattern */
+.m-datatable {
+  thead {
+    tr {
+      th {
+        position: relative;
+
+
+      }
+    }
+  }
+  .sorting,
+  .sorting_asc,
+  .sorting_desc,
+  .sorting_asc_disabled,
+  .sorting_desc_disabled {
+
+    /* position:relative; */
+    padding: var(--sorting-cell-base-padding);
+    cursor: pointer;
+    background-image: none;
+  }
+
+  .sorting_asc,
+  .sorting_desc,
+  .sorting:hover {
+    color: var(--datatable_active_sorting_color) !important;
+    background: var(--datatable-active-sorting-bg) !important;
+    background-clip: padding-box !important;
+    border-bottom: var(--datatable-active-sorting-border-bottom);
+  }
+
+  &.w-arrow {
+
+    .sorting,
+    .sorting_asc,
+    .sorting_desc,
+    .sorting_asc_disabled,
+    .sorting_desc_disabled {
+
+      &::before, &::after {
+        position: absolute;
+        right: .4em !important;
+        display: block;
+        width: 0;
+        height: 0;
+        content: '' !important;
+        border-color: transparent;
+        border-width: var(--sorting-arrow-size);
+      }
+
+      &::before {
+        bottom: calc(var(--sorting-arrow-bottom) + 1px + var(--sorting-arrow-size)) !important;
+        border-style: none solid solid;
+        border-bottom-color: var(--datatable-sorting-arrows-color);
+      }
+      &::after {
+        bottom: calc(var(--sorting-arrow-bottom) - var(--sorting-arrow-size)) !important;
+        border-style: solid solid none;
+        border-top-color: var(--datatable-sorting-arrows-color);
+      }
+    }
+
+    .sorting_asc,
+    .sorting_desc,
+    .sorting:hover {
+
+      &::before {
+        border-bottom-color: var(--datatable-active-sorting-color);
+      }
+
+      &::after {
+        border-top-color: var(--datatable-active-sorting-color);
+      }
+    }
+  }
+}

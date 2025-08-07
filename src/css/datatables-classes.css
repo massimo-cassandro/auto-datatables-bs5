@@ -1,0 +1,8 @@
+/* stylelint-disable selector-class-pattern */
+.dataTables_info{
+  padding-top: .5rem;
+}
+td.dataTables_empty {
+  font-style: italic;
+  text-align: center;
+}

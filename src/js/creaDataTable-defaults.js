@@ -44,6 +44,8 @@ export const cdt_default_options = {
     }
   },
 
+  use_sorting_arrow: false, // se true viene aggiunta al container la classe `w-arrow` che attiva la visualizzazione delle frecce dell'ordinamento
+
   container_header: null, //'Risultato della ricerca', // se presente aggiunge un header prima della tabella
   container_class: 'dt-container', // classe che viene assegnata al div che contiene la tabella
   container_header_level: 2, // livello gerarchico dell'header (h2, h3, ecc...)

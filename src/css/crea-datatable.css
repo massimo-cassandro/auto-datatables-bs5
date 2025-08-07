@@ -1,0 +1,43 @@
+.m-datatable {
+
+  --datatable-responsive-border-color: #ccc;
+  --datatable-processing-padding: 0;
+  --datatable-processing-bg: linear-gradient(to right, rgba(#fff, 0) 0%, rgba(#fff, .9) 25%, rgba(#fff, .9) 75%, rgba(#fff, 0) 100%);
+
+  --sorting-cell-base-padding: .5em;
+
+  --datatable-active-sorting-color: currentColor; /* #c00; */
+  --datatable-active-sorting-bg: inherit;
+  --datatable-active-sorting-border-bottom: none;
+
+  --sorting-arrow-size: 4px;
+  --datatable-sorting-arrows-color: currentColor;
+  --sorting-cell-arrow-padding: var(--sorting-cell-base-padding) 1.5em var(--sorting-cell-base-padding) var(--sorting-cell-base-padding);
+  --sorting-arrow-bottom: 50%;
+
+  /* pagination  (da bootstrap) */
+  --pagination-padding-x: .5rem;
+  --pagination-padding-y: .25rem;
+  --pagination-font-size: .875rem;
+
+  --pagination-color: #095db1;
+  --pagination-bg: #fff;
+  --pagination-border-width: 1px;
+  --pagination-border-color: #e1e1e1;
+
+  --pagination-border-radius: .25rem;
+  --pagination-hover-color: #074a8e;
+  --pagination-hover-bg: #f4f4f4;
+  --pagination-hover-border-color: var(--pagination-border-color);
+  --pagination-focus-color: var(--pagination-hover-color);
+  --pagination-focus-bg: var(--pagination-hover-bg);
+  --pagination-focus-box-shadow: 0 0 0 .25rem #06407a40;
+  --pagination-active-color: #fff;
+  --pagination-active-bg: #007e8a;
+  --pagination-active-border-color: #007e8a;
+  --pagination-disabled-color: #ababab;
+  --pagination-disabled-bg: var(--pagination-hover-bg);
+  --pagination-disabled-border-color: var(--pagination-border-color);
+
+
+}
